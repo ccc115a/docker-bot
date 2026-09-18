@@ -1,0 +1,17 @@
+services:
+  agent-sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    container_name: agent_sandbox
+    environment:
+      # host.docker.internal 讓容器能連到 Mac 本機原生 Ollama (:11434)
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - HEADLESS=true
+    volumes:
+      # 產出物（截圖 / log）經 volume 寫回本機
+      - .:/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tty: true
+    stdin_open: true
