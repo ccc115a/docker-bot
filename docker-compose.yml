@@ -1,0 +1,36 @@
+services:
+  agent-sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    container_name: agent_sandbox
+    environment:
+      # host.docker.internal 讓容器能連到 Mac 本機原生 Ollama (:11434)
+      - OLLAMA_HOST=http://host.docker.internal:11434
+      - HEADLESS=true
+      # Agent 檔案/shell 工具的根目錄（模型看到的家目錄）
+      - FILE_ROOT=/home/user
+    volumes:
+      # 產出物（截圖 / log）經 volume 寫回本機
+      - .:/app
+      # 沙盒家目錄：本機 ./workspace 即容器內 /home/user
+      - ./workspace:/home/user
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    tty: true
+    stdin_open: true
+
+  # 網站版 shell 的執行地：常駐容器，只掛共用資料夾，本機其他目錄碰不到
+  shellbox:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    container_name: agent_shellbox
+    # 蓋掉 Dockerfile 的 CMD：不跑 agent，純待命等 docker exec
+    command: ["sleep", "infinity"]
+    environment:
+      - FILE_ROOT=/home/user
+    volumes:
+      - ./workspace:/home/user
+    tty: true
+    stdin_open: true

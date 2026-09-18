@@ -1,0 +1,9 @@
+{
+  "name": "docker-bot-web",
+  "version": "0.1.0",
+  "description": "Model picker + chat UI backed by local Ollama (pure Node.js, no dependencies)",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
