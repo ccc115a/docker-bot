@@ -1,0 +1,12 @@
+{
+  "name": "docker-bot-agent",
+  "version": "0.1.0",
+  "description": "ReAct browser agent: local Ollama brain + Playwright hands (Node.js)",
+  "type": "module",
+  "scripts": {
+    "start": "node agent.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.42.0"
+  }
+}

@@ -1,13 +1,13 @@
-FROM mcr.microsoft.com/playwright/python:v1.42.0-jammy
+FROM mcr.microsoft.com/playwright:v1.42.0-jammy
 
 WORKDIR /app
 
-# 安裝 Python 依賴
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 安裝 Node.js 依賴（瀏覽器已內建於基底镜像，不需另行下載）
+COPY package.json .
+RUN npm install --omit=dev
 
 # 複製專案程式碼
 COPY . .
 
 # 預設執行指令
-CMD ["python", "main.py"]
+CMD ["node", "agent.mjs"]
